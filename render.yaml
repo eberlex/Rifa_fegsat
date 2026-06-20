@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: rifa-fegsat
+    runtime: python
+    pythonVersion: 3.11
+    startCommand: ./start.sh
+    envVars:
+      - key: SHEET_ID
+        value: 1vvyEHc12FvAKpzMY0a47FgHnYKAl2itGyU1fxPBM1Jc
+      - key: ADMIN_PASSWORD
+        value: fegsat2026
+      - key: PORT
+        value: 5000
