@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# If SERVICE_ACCOUNT_JSON env var is set with the JSON content, write it to a file
-if [ -n "${SERVICE_ACCOUNT_JSON-}" ]; then
-  echo "$SERVICE_ACCOUNT_JSON" > /tmp/service_account.json
+# If GOOGLE_SERVICE_ACCOUNT_JSON env var is set with the JSON content, write it to a file
+if [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON-}" ]; then
+  echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > /tmp/service_account.json
   export GOOGLE_SERVICE_ACCOUNT_JSON=/tmp/service_account.json
 fi
 
