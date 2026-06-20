@@ -1,0 +1,7 @@
+openpyxl
+pyinstaller
+Flask
+gspread
+google-auth
+google-auth-httplib2
+Pillow
