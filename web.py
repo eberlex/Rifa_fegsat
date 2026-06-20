@@ -27,112 +27,16 @@ app = Flask(__name__)
 
 FORM_HTML = '''
 <!doctype html>
-<html>
-<head>
-  <title>Rifa Fegsat - Registrar Venda</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;c
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #555;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    input[type="submit"],
-    .button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    input[type="submit"]:hover,
-    .button:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-    .links {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .links a {
-      display: inline-block;
-      margin: 10px 5px;
-      padding: 10px 20px;
-      background: #f0f0f0;
-      color: #667eea;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: all 0.3s;
-    }
-    .links a:hover {
-      background: #667eea;
-      color: white;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>🎫 Registrar Venda</h1>
-    <form method=post action="/submit">
-      <div class="form-group">
-        <label>Nome:</label>
-        <input type=text name=nome required>
-      </div>
-      <div class="form-group">
-        <label>Telefone:</label>
-        <input type=text name=telefone required>
-      </div>
-      <div class="form-group">
-        <label>Número:</label>
-        <input type=text name=numero required>
-      </div>
-      <input type=submit value="Registrar">
-    </form>
-    <div class="links">
-      <a href="/sold">Ver Números Vendidos</a>
-      <a href="/admin">Painel Admin</a>
-    </div>
-  </div>
-</body>
-</html>
+<title>Rifa Fegsat - Registrar Venda</title>
+<h1>Registrar Venda</h1>
+<form method=post action="/submit">
+  Nome: <input type=text name=nome required><br>
+  Telefone: <input type=text name=telefone required><br>
+  Número: <input type=text name=numero required><br>
+  <input type=submit value="Registrar">
+</form>
+<p><a href="/sold">Ver Números Vendidos</a></p>
+<p><a href="/admin">Painel Admin</a></p>
 '''
 
 SOLD_HTML = '''
@@ -215,7 +119,7 @@ SOLD_HTML = '''
     <div class="stats">
       <strong>Total de números vendidos: {{total}}</strong>
     </div>
-    {{content}}
+    {{content|safe}}
     <div style="text-align: center; margin-top: 20px;">
       <a href="/" class="button">← Voltar</a>
     </div>
@@ -226,167 +130,27 @@ SOLD_HTML = '''
 
 ADMIN_LOGIN_HTML = '''
 <!doctype html>
-<html>
-<head>
-  <title>Admin Login - Rifa Fegsat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .container {
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 400px;
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #555;
-      font-weight: bold;
-    }
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    input[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    input[type="submit"]:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>🔐 Administrador</h1>
-    <form method=post action="/admin">
-      <div class="form-group">
-        <label>Senha:</label>
-        <input type=password name=password required autofocus>
-      </div>
-      <input type=submit value="Entrar">
-    </form>
-  </div>
-</body>
-</html>
+<title>Admin Login</title>
+<h1>Administrador</h1>
+<form method=post action="/admin">
+  Senha: <input type=password name=password required>
+  <input type=submit value="Entrar">
+</form>
 '''
 
 ADMIN_PANEL_HTML = '''
 <!doctype html>
-<html>
-<head>
-  <title>Painel Admin - Rifa Fegsat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .button-group {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    .button-group form {
-      flex: 1;
-    }
-    button, input[type="submit"] {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    button:hover, input[type="submit"]:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-    .danger {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    .back-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .back-link a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .back-link a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>⚙️ Painel Admin</h1>
-    <div class="button-group">
-      <form method=post action="/admin/clear" onsubmit="return confirm('Tem certeza? Esta ação é irreversível!');">
-        <input type=hidden name=password value="{{password}}">
-        <input type=submit value="🗑️ Apagar Todas as Vendas" class="danger">
-      </form>
-      <form method=get action="/admin/export">
-        <input type=submit value="📥 Exportar XLSX">
-      </form>
-    </div>
-    <div class="back-link">
-      <a href="/">← Voltar</a>
-    </div>
-  </div>
-</body>
-</html>
+<title>Painel Admin</title>
+<h1>Painel Admin</h1>
+<!-- password is injected as hidden field when rendering -->
+<form method=post action="/admin/clear" onsubmit="return confirm('Apagar todas as vendas?');">
+  <input type=hidden name=password value="{{password}}">
+  <input type=submit value="Apagar Todas as Vendas">
+</form>
+<form method=get action="/admin/export">
+  <input type=submit value="Exportar XLSX">
+</form>
+<p><a href="/">Voltar</a></p>
 '''
 
 @app.route('/', methods=['GET'])
@@ -471,12 +235,12 @@ def sold():
     sold_numbers = [row[2] for row in rows if len(row) >= 3 and row[2].strip()]
     
     if sold_numbers:
-        content = 'numbers-grid'
+        content = '<div class="numbers-grid">'
         for num in sorted(sold_numbers, key=lambda x: int(x) if x.isdigit() else 0):
-            content += f'{num}</div>'
+            content += f'<div class="number-badge">{num}</div>'
         content += '</div>'
     else:
-        content = 'Nenhum número vendido ainda.</div>'
+        content = '<div class="no-data">Nenhum número vendido ainda.</div>'
     
     return render_template_string(SOLD_HTML, total=len(sold_numbers), content=content)
 
