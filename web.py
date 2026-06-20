@@ -36,7 +36,7 @@ FORM_HTML = '''
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       margin: 0;
       padding: 20px;
-      min-height: 100vh;
+      min-height: 100vh;c
     }
     .container {
       max-width: 500px;
@@ -473,10 +473,10 @@ def sold():
     if sold_numbers:
         content = '<div class="numbers-grid">'
         for num in sorted(sold_numbers, key=lambda x: int(x) if x.isdigit() else 0):
-            content += f'<div class="number-badge">{num}</div>'
+            content += f'{num}'
         content += '</div>'
     else:
-        content = '<div class="no-data">Nenhum número vendido ainda.</div>'
+        content = 'Nenhum número vendido ainda.'
     
     return render_template_string(SOLD_HTML, total=len(sold_numbers), content=content)
 
