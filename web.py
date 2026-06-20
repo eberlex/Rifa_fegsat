@@ -35,7 +35,17 @@ FORM_HTML = '''
   Número: <input type=text name=numero required><br>
   <input type=submit value="Registrar">
 </form>
+<p><a href="/sold">Ver Números Vendidos</a></p>
 <p><a href="/admin">Painel Admin</a></p>
+'''
+
+SOLD_HTML = '''
+<!doctype html>
+<title>Números Vendidos - Rifa Fegsat</title>
+<h1>Números Vendidos</h1>
+<p>Total de números vendidos: {{total}}</p>
+{{content}}
+<p><a href="/">Voltar</a></p>
 '''
 
 ADMIN_LOGIN_HTML = '''
@@ -138,6 +148,21 @@ def admin_export():
                      mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                      as_attachment=True,
                      download_name='dados.xlsx')
+
+@app.route('/sold', methods=['GET'])
+def sold():
+    rows = ws.get_all_values()[1:]  # skip header
+    sold_numbers = [row[2] for row in rows if len(row) >= 3 and row[2].strip()]
+    
+    if sold_numbers:
+        content = '<ul>'
+        for num in sorted(sold_numbers, key=lambda x: int(x) if x.isdigit() else 0):
+            content += f'<li>{num}</li>'
+        content += '</ul>'
+    else:
+        content = '<p>Nenhum número vendido ainda.</p>'
+    
+    return render_template_string(SOLD_HTML, total=len(sold_numbers), content=content)
 
 if __name__ == '__main__':
     # For development only. In production use gunicorn/uwsgi
