@@ -12,3 +12,5 @@ services:
         value: fegsat2026
       - key: PORT
         value: 5000
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        fromGroup: rifa-secrets
