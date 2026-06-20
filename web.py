@@ -471,12 +471,12 @@ def sold():
     sold_numbers = [row[2] for row in rows if len(row) >= 3 and row[2].strip()]
     
     if sold_numbers:
-        content = '<div class="numbers-grid">'
+        content = 'numbers-grid'
         for num in sorted(sold_numbers, key=lambda x: int(x) if x.isdigit() else 0):
-            content += f'{num}'
+            content += f'{num}</div>'
         content += '</div>'
     else:
-        content = 'Nenhum número vendido ainda.'
+        content = 'Nenhum número vendido ainda.</div>'
     
     return render_template_string(SOLD_HTML, total=len(sold_numbers), content=content)
 
