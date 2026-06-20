@@ -110,9 +110,8 @@ def admin_clear():
         # Delete only data rows, keep header
         rows = ws.get_all_values()
         if len(rows) > 1:
-            data_rows = len(rows) - 1
-            # delete starting at row 2
-            ws.delete_rows(2, data_rows)
+            # delete_rows is exclusive at the end, so add 1 to include the last row
+            ws.delete_rows(2, len(rows) + 1)
         # ensure header exists
         if not header:
             ws.append_row(["Nome","Telefone","Numero"])
