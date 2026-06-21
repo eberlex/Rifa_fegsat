@@ -110,7 +110,7 @@ FORM_HTML = '''
 </head>
 <body>
   <div class="container">
-    <img src="/imagens/Logo_app_rifa%20%281%29.png" alt="Logo" style="width:140px; display:block; margin: 0 auto 20px;" />
+    <img src="/static/Logo_app_rifa%20%281%29.png" alt="Logo" style="width:140px; display:block; margin: 0 auto 20px;" />
     <h1>🎫 Registrar Venda</h1>
     <form method=post action="/submit">
       <div class="form-group">
@@ -216,7 +216,7 @@ SOLD_HTML = '''
 </head>
 <body>
   <div class="container">
-    <img src="/imagens/Logo_app_rifa%20%281%29.png" alt="Logo" style="width:140px; display:block; margin: 0 auto 20px;" />
+    <img src="/static/Logo_app_rifa%20%281%29.png" alt="Logo" style="width:140px; display:block; margin: 0 auto 20px;" />
     <h1>🎫 Números Vendidos</h1>
     <div class="stats">
       <strong>Total de números vendidos: {{total}}</strong>
