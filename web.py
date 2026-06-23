@@ -37,7 +37,7 @@ FORM_HTML = '''
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(136deg, #668eea 0%, #764ba2 100%);
+      background: linear-gradient(136deg, #665eea 0%, #764ba2 100%);
       margin: 0;
       padding: 20px;
       min-height: 100vh;c
