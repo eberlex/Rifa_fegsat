@@ -15,6 +15,10 @@ SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "service_account
 SHEET_ID = os.getenv("SHEET_ID")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "changeme")
 
+# Senha para permitir registrar uma venda (deve ser setada no ambiente)
+VENDA_PASSWORD = os.getenv("VENDA_PASSWORD", "")
+
+
 if not SHEET_ID:
     raise RuntimeError("SHEET_ID environment variable not set. See README_GOOGLE.md for setup.")
 
@@ -132,6 +136,10 @@ FORM_HTML = '''
       <div class="form-group">
         <label>Vendedor:</label>
         <input type=text name=vendedor required>
+      </div>
+      <div class="form-group">
+        <label>Senha da Venda:</label>
+        <input type=password name=senha_venda required>
       </div>
       <input type=submit value="Registrar">
     </form>
@@ -271,10 +279,17 @@ def submit():
     email = request.form.get('email','').strip()
     numero = request.form.get('numero','').strip()
     vendedor = request.form.get('vendedor','').strip()
+    senha_venda = request.form.get('senha_venda','').strip()
 
-
-    if not nome or not telefone or not email or not numero or not vendedor:
+    if not nome or not telefone or not email or not numero or not vendedor or not senha_venda:
         return "Preencha todos os campos", 400
+
+    if not VENDA_PASSWORD:
+        return "Senha da venda não configurada no servidor.", 500
+
+    if senha_venda != VENDA_PASSWORD:
+        return "Senha da venda incorreta.", 403
+
 
 
     # Check duplicate numero
