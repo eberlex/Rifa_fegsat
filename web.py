@@ -129,6 +129,10 @@ FORM_HTML = '''
         <label>Número:</label>
         <input type=text name=numero required>
       </div>
+      <div class="form-group">
+        <label>Vendedor:</label>
+        <input type=text name=vendedor required>
+      </div>
       <input type=submit value="Registrar">
     </form>
     <div class="links">
@@ -139,6 +143,7 @@ FORM_HTML = '''
 </body>
 </html>
 '''
+
 
 SOLD_HTML = '''
 <!doctype html>
@@ -265,9 +270,12 @@ def submit():
     telefone = request.form.get('telefone','').strip()
     email = request.form.get('email','').strip()
     numero = request.form.get('numero','').strip()
+    vendedor = request.form.get('vendedor','').strip()
 
-    if not nome or not telefone or not email or not numero:
+
+    if not nome or not telefone or not email or not numero or not vendedor:
         return "Preencha todos os campos", 400
+
 
     # Check duplicate numero
     rows = ws.get_all_values()[1:]  # skip header
@@ -275,8 +283,9 @@ def submit():
         if len(r) >= 4 and r[3] == numero:
             return f"O número {numero} já foi vendido", 400
 
-    ws.append_row([nome, telefone, email, numero])
+    ws.append_row([nome, telefone, email, numero, vendedor])
     return redirect(url_for('index'))
+
 
 @app.route('/admin', methods=['GET','POST'])
 def admin():
@@ -307,7 +316,8 @@ def admin_clear():
             ws.delete_rows(2, len(rows) + 1)
         # ensure header exists
         if not header:
-            ws.append_row(["Nome","Telefone","Email","Numero"])
+            ws.append_row(["Nome","Telefone","Email","Numero","Vendedor"])
+
     except Exception as e:
         # log error and return readable message
         return f"Erro ao apagar dados: {e}", 500
@@ -335,8 +345,9 @@ def admin_export():
 @app.route('/sold', methods=['GET'])
 def sold():
     rows = ws.get_all_values()[1:]  # skip header
-    # Numero is now column D (index 3)
+    # Numero is now column D (index 3) even after adding Vendedor at the end
     sold_numbers = [row[3] for row in rows if len(row) >= 4 and row[3].strip()]
+
     
     if sold_numbers:
         content = '<div class="numbers-grid">'
